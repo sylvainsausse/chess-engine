@@ -55,6 +55,14 @@ func (this Chessboard) clone() Chessboard {
 	return c
 }
 
+func (this Chessboard) convert() [64]byte {
+	ret := [64]byte{}
+	for i,j := range this {
+		ret[i] = byte(j)
+	}
+	return ret
+}
+
 
 func (this Chessboard) GetPieceAt(line int, column int) Piece {
 	if line >= 8 || line < 0 || column >= 8 || column < 0 {
