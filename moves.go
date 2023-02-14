@@ -366,13 +366,13 @@ func (this Chessboard) IsEnPassant(t Team, l1 int, c1 int, l2 int, c2 int) bool{
 	if l1-l2 == -1 && t {
 		if abs(c1-c2) == 1 {
 			p := this.GetPieceAt(l1,c2)
-			return p.isLegalPiece() //en passant
+			return p.isLegalPiece() && p.getTeam() != t //en passant
 		}
 	}
 	if l1-l2 == 1 && !t {
 		if abs(c1-c2) == 1 {
 			p := this.GetPieceAt(l1,c2)
-			return p.isLegalPiece() //en passant
+			return p.isLegalPiece() && p.getTeam() != t  //en passant
 		}
 	}
 	return false
