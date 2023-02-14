@@ -63,7 +63,7 @@ func (this Chessboard) Convert() []byte {
 	return ret
 }
 
-func (this Chessboard) LoadFromBytes(bytes []byte){
+func (this *Chessboard) LoadFromBytes(bytes []byte){
 	for i := 0 ; i < 64 ; i++ {
 		this[i] = Piece(bytes[i])
 	}
