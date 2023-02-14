@@ -55,7 +55,7 @@ func (this Chessboard) clone() Chessboard {
 	return c
 }
 
-func (this Chessboard) convert() [64]byte {
+func (this Chessboard) Convert() [64]byte {
 	ret := [64]byte{}
 	for i,j := range this {
 		ret[i] = byte(j)
