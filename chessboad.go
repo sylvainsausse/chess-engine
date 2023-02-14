@@ -63,6 +63,13 @@ func (this Chessboard) Convert() []byte {
 	return ret
 }
 
+func (this Chessboard) LoadFromBytes(bytes []byte){
+	for i := 0 ; i < 64 ; i++ {
+		this[i] = Piece(bytes[i])
+	}
+	return
+}
+
 
 func (this Chessboard) GetPieceAt(line int, column int) Piece {
 	if line >= 8 || line < 0 || column >= 8 || column < 0 {
