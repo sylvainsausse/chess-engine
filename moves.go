@@ -15,7 +15,7 @@ func (this *Chessboard) IsLegalMove(team Team, line1 int, col1 int, line2 int, c
 	if destteam == team && piecedest.isLegalPiece(){ // Si la destination contient un pièce de la meme equipe 
 		return false
 	}
-	b,_,_,_,_ := this.IsALegalRook(team,line1,col1,line2,col2)
+	b,l1,c1,l2,c2 := this.IsALegalRook(team,line1,col1,line2,col2)
 	if !this.PossiblyMove(line1,col1,line2,col2){
 		return false
 	}
