@@ -315,7 +315,7 @@ func (this Chessboard) CheckForChecksAt(t Team,ci int,cj int) bool {
 		for j := 0 ; j<8 ; j++ {
 			a := this.GetPieceAt(i,j)
 			if a.getTeam() != t {
-				if this.IsLegalMove_NoCheck(!t,i,j,ci,cj) {
+				if this.IsLegalMove_NoCheck(!t,i,j,ci,cj) || this.IsEnPassant(!t,i,j,ci,cj) {
 					return true
 				}
 			}
