@@ -252,6 +252,21 @@ func (this *Chessboard) move(line1 int, col1 int, line2 int, col2 int) error {
 	if line2 < 0 || line2 >= 8 || col2 < 0 || col2 >= 8 || line1 < 0 || line1 >= 8 || col1 < 0 || col1 >= 8 {
 		return ChessError{"Bad coordinates"}
 	}
+	p := this[line1*8+col1]
+	if p.Type() == PAWN {
+		if p.getTeam() == WHITE_TEAM && col2 == 0 {
+			this[line2*8+col2] = WHITE_QUEEN
+			this[line1*8+col1] = 0
+			this[line2*8+col2].moveit()
+			return nil
+		}
+		if p.getTeam() == BLACK_TEAM && col2 == 7 {
+			this[line2*8+col2] = BLACK_QUEEN
+			this[line1*8+col1] = 0
+			this[line2*8+col2].moveit()
+			return nil
+		}
+	}
 	this[line2*8+col2] = this[line1*8+col1]
 	this[line1*8+col1] = 0
 	this[line2*8+col2].moveit()
