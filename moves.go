@@ -358,7 +358,7 @@ func (this Chessboard) CheckForChecks(t Team) bool {
 		}
 	}
 	if ci == -1 || cj == -1 {
-		panic("no king !")
+		return true
 	}
 	return this.CheckForChecksAt(t,ci,cj)
 }
