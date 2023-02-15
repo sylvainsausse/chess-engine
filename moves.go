@@ -359,17 +359,17 @@ func (this Chessboard) IsALegalRook(t Team, line1 int, col1 int, line2 int, col2
 }
 
 func (this Chessboard) IsEnPassant(t Team, l1 int, c1 int, l2 int, c2 int) bool{
-	p := this.GetPieceAt(l1,c1).Type()
+	p := this.GetPieceAt(l1,c1)
 	if p.Type() != PAWN || p.getTeam() != t {
 		return false
 	}
-	if l1-l2 == -1 && t {
+	if l1-l2 == -1 && t { //noir
 		if abs(c1-c2) == 1 {
 			p := this.GetPieceAt(l1,c2)
 			return p.isLegalPiece() && p.getTeam() != t //en passant
 		}
 	}
-	if l1-l2 == 1 && !t {
+	if l1-l2 == 1 && !t { //bkanc
 		if abs(c1-c2) == 1 {
 			p := this.GetPieceAt(l1,c2)
 			return p.isLegalPiece() && p.getTeam() != t  //en passant
