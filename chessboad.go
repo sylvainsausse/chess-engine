@@ -137,7 +137,7 @@ type ChessError struct {
 func (this Chessboard) Sum() int {
 	ret := 0
 	for _,j := range this {
-		ret += int(j)
+		ret += int(j.Teampiece())
 	}
 	return ret
 }
