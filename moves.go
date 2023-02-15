@@ -29,6 +29,29 @@ func (this *Chessboard) IsLegalMove(team Team, line1 int, col1 int, line2 int, c
 	return true
 }
 
+func (this *Chessboard) IsLegalMove_NoCheck(team Team, line1 int, col1 int, line2 int, col2 int) bool {
+	piece := this.GetPieceAt(line1,col1) 
+	real_team :=  piece.getTeam()// recuperation du bit d'equipe
+
+
+	if real_team != team || !piece.isLegalPiece() { // La pièce est-elle valide et est elle de la bonne equipe ?
+		return false
+	}
+
+	piecedest := this.GetPieceAt(line2,col2)
+	destteam := piecedest.getTeam()
+
+	if destteam == team && piecedest.isLegalPiece(){ // Si la destination contient un pièce de la meme equipe 
+		return false
+	}
+
+	if !this.PossiblyMove(line1,col1,line2,col2){
+		return false
+	}
+
+	return true
+}
+
 func (this Chessboard) PossiblyMove(line1 int, col1 int, line2 int, col2 int) bool {
 	piece := this.GetPieceAt(line1,col1)
 	if line2 < 0 || line2 >= 8 || col2 < 0 || col2 >= 8 || line1 < 0 || line1 >= 8 || col1 < 0 || col1 >= 8 {
@@ -277,7 +300,7 @@ func (this Chessboard) CheckForChecksAt(t Team,ci int,cj int) bool {
 		for j := 0 ; j<8 ; j++ {
 			a := this.GetPieceAt(i,j)
 			if a.getTeam() != t {
-				if this.IsLegalMove(!t,i,j,ci,cj) {
+				if this.IsLegalMove_NoCheck(!t,i,j,ci,cj) {
 					return true
 				}
 			}
