@@ -45,6 +45,17 @@ func (this *Chessboard) IsLegalMove_NoCheck(team Team, line1 int, col1 int, line
 		return false
 	}
 
+	if this.IsEnPassant(team,line1,col1,line2,col2){
+		return true
+	}
+
+	b,_,_,_,_ := this.IsALegalRook(team,line1,col1,line2,col2)
+
+	if b {
+		return true
+	}
+
+
 	if !this.PossiblyMove(line1,col1,line2,col2){
 		return false
 	}
@@ -233,18 +244,19 @@ func (this Chessboard) PossiblyMove(line1 int, col1 int, line2 int, col2 int) bo
 
 func (this *Chessboard) Make_move(t Team, line1 int, col1 int, line2 int, col2 int) (error){
 	if this.IsLegalMove(t,line1,col1,line2,col2) {
+		b,l1,c1,l2,c2 := this.IsALegalRook(t,line1,col1,line2,col2)
+		if b {
+			this.move(line1,col1,line2,col2)
+			this.move(l1,c1,l2,c2)
+			return nil
+		}
+		if this.IsEnPassant(t,line1,col1,line2,col2) {
+			this.move(line1,col1,line2,col2)
+			return this.delete(line1,col2)
+		}
 		return this.move(line1,col1,line2,col2)
 	}
-	b,l1,c1,l2,c2 := this.IsALegalRook(t,line1,col1,line2,col2)
-	if b {
-		this.move(line1,col1,line2,col2)
-		this.move(l1,c1,l2,c2)
-		return nil
-	}
-	if this.IsEnPassant(t,line1,col1,line2,col2) {
-		this.move(line1,col1,line2,col2)
-		return this.delete(line1,col2)
-	}
+	
 	return ChessError{"Not a legal move"}
 }
 
@@ -315,7 +327,7 @@ func (this Chessboard) CheckForChecksAt(t Team,ci int,cj int) bool {
 		for j := 0 ; j<8 ; j++ {
 			a := this.GetPieceAt(i,j)
 			if a.getTeam() != t {
-				if this.IsLegalMove_NoCheck(!t,i,j,ci,cj) || this.IsEnPassant(!t,i,j,ci,cj) {
+				if this.IsLegalMove_NoCheck(!t,i,j,ci,cj) {
 					return true
 				}
 			}
