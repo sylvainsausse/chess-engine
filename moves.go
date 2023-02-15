@@ -15,9 +15,13 @@ func (this *Chessboard) IsLegalMove(team Team, line1 int, col1 int, line2 int, c
 	if destteam == team && piecedest.isLegalPiece(){ // Si la destination contient un pièce de la meme equipe 
 		return false
 	}
-
 	if !this.PossiblyMove(line1,col1,line2,col2){
-		return false
+		if !this.IsEnPassant(team,line1,col1,line2,col2){
+			b,_,_,_,_ := this.IsALegalRook(team,line1,col1,line2,col2)
+			if !b {
+				return false
+			}
+		}
 	}
 
 	c := this.clone()
@@ -380,7 +384,7 @@ func (this Chessboard) IsALegalRook(t Team, line1 int, col1 int, line2 int, col2
 						return false,-1,-1,-1,-1
 					}
 				}
-				return true,0,0,0,5
+				return true,0,7,0,5
 			}
 		}
 	} else if line1 == 7 && line2 == 7 && col1 == 4 {

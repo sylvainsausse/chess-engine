@@ -22,14 +22,6 @@ var Blank = Chessboard{
 	0x3,0x4,0x5,0x2,0x1,0x5,0x4,0x3,
 }
 
-const (
-	BLANK_1 uint64 = 0x9AB87BA9
-	BLANK_2 uint64 = 0xCCCCCCCC
-	BLANK_3456 uint64 = 0x00000000
-	BLANK_7 uint64 = 0x66666666
-	BLANK_8 uint64 = 0x34521543
-)
-
 func NewChessboard() Chessboard {
 	return Blank.clone()
 }
@@ -67,7 +59,6 @@ func (this *Chessboard) LoadFromBytes(bytes []byte){
 	for i := 0 ; i < 64 ; i++ {
 		this[i] = Piece(bytes[i])
 	}
-	return
 }
 
 
