@@ -326,7 +326,8 @@ func (this Chessboard) CheckForChecksAt(t Team,ci int,cj int) bool {
 
 func (this Chessboard) CheckForChecks(t Team) bool {
 	// find the king
-	var ci,cj int
+	ci := -1
+	cj := -1
 	for i := 0 ; i<8 ; i++ {
 		for j := 0 ; j<8 ; j++ {
 			a := this.GetPieceAt(i,j)
@@ -336,6 +337,9 @@ func (this Chessboard) CheckForChecks(t Team) bool {
 				break
 			}
 		}
+	}
+	if ci == -1 || cj == -1 {
+		panic("no king !")
 	}
 	return this.CheckForChecksAt(t,ci,cj)
 }
