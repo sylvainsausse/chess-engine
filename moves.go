@@ -254,13 +254,13 @@ func (this *Chessboard) move(line1 int, col1 int, line2 int, col2 int) error {
 	}
 	p := this[line1*8+col1]
 	if p.Type() == PAWN {
-		if p.getTeam() == WHITE_TEAM && col2 == 0 {
+		if p.getTeam() == WHITE_TEAM && line2 == 0 {
 			this[line2*8+col2] = WHITE_QUEEN
 			this[line1*8+col1] = 0
 			this[line2*8+col2].moveit()
 			return nil
 		}
-		if p.getTeam() == BLACK_TEAM && col2 == 7 {
+		if p.getTeam() == BLACK_TEAM && line2 == 7 {
 			this[line2*8+col2] = BLACK_QUEEN
 			this[line1*8+col1] = 0
 			this[line2*8+col2].moveit()

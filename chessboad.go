@@ -133,3 +133,11 @@ func (this Chessboard) ToString() string {
 type ChessError struct {
 	msg string
 }
+
+func (this Chessboard) Sum() int {
+	ret := 0
+	for _,j := range this {
+		ret += int(j)
+	}
+	return ret
+}
