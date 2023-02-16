@@ -16,19 +16,21 @@ func (this *Chessboard) IsLegalMove(team Team, line1 int, col1 int, line2 int, c
 		return false
 	}
 	b,l1,c1,l2,c2 := this.IsALegalRook(team,line1,col1,line2,col2)
-	if !this.PossiblyMove(line1,col1,line2,col2){
-		return false
-	}
+
 	c := this.clone()
-	if !this.IsEnPassant(team,line1,col1,line2,col2){
+
+	if this.IsEnPassant(team,line1,col1,line2,col2){
 		c.move(line1,col1,line2,col2)
 		c.delete(line1,col2)
 	} else if b {
 		c.move(line1,col1,line2,col2)
 		c.move(l1,c1,l2,c2)
-	} else {
+	} else if this.PossiblyMove(line1,col1,line2,col2) {
 		c.move(line1,col1,line2,col2)
+	} else {
+		return false
 	}
+
 	if c.CheckForChecks(team){
 		return false
 	}
@@ -52,22 +54,17 @@ func (this *Chessboard) IsLegalMove_NoCheck(team Team, line1 int, col1 int, line
 		return false
 	}
 
-	if this.IsEnPassant(team,line1,col1,line2,col2){
-		return true
-	}
-
 	b,_,_,_,_ := this.IsALegalRook(team,line1,col1,line2,col2)
 
-	if b {
+	if this.IsEnPassant(team,line1,col1,line2,col2){
 		return true
-	}
-
-
-	if !this.PossiblyMove(line1,col1,line2,col2){
+	} else if b {
+		return true
+	} else if this.PossiblyMove(line1,col1,line2,col2) {
+		return true
+	} else {
 		return false
 	}
-
-	return true
 }
 
 func (this Chessboard) PossiblyMove(line1 int, col1 int, line2 int, col2 int) bool {
