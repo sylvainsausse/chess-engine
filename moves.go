@@ -62,9 +62,9 @@ func (this *Chessboard) IsLegalMove_NoCheck(team Team, line1 int, col1 int, line
 		return true
 	} else if this.PossiblyMove(line1,col1,line2,col2) {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }
 
 func (this Chessboard) PossiblyMove(line1 int, col1 int, line2 int, col2 int) bool {
@@ -334,6 +334,9 @@ func (this Chessboard) CheckForChecksAt(t Team,ci int,cj int) bool {
 				if this.IsLegalMove_NoCheck(!t,i,j,ci,cj) {
 					return true
 				}
+				if this.canKillByEnPassant(!t,i,j,ci,cj){
+					return true
+				}
 			}
 		}
 	}
@@ -354,7 +357,7 @@ func (this Chessboard) CheckForChecks(t Team) bool {
 			}
 		}
 	}
-	if ci == -1 || cj == -1 {
+	if ci == -1 || cj == -1 { // if no king
 		return true
 	}
 	return this.CheckForChecksAt(t,ci,cj)
@@ -432,6 +435,23 @@ func (this Chessboard) IsEnPassant(t Team, l1 int, c1 int, l2 int, c2 int) bool{
 			p := this.GetPieceAt(l1,c2)
 			return p.isLegalPiece() && p.getTeam() != t  //en passant
 		}
+	}
+	return false
+}
+
+func (this Chessboard) canKillByEnPassant(t Team, l1 int, c1 int,l2 int, c2 int) bool {
+	p := this.GetPieceAt(l1,c1)
+	if  p.getTeam() != t || p.Type() != PAWN {
+		return false
+	}
+	if abs(c1-c2) != 1 {
+		return false
+	}
+	if t == WHITE_TEAM && this.GetPieceAt(l1-1,c2).isLegalPiece() && this.GetPieceAt(l1-1,c2).getTeam() != t {
+		return true
+	}
+	if t == BLACK_TEAM && this.GetPieceAt(l1+1,c2).isLegalPiece() && this.GetPieceAt(l1+1,c2).getTeam() != t {
+		return true
 	}
 	return false
 }
